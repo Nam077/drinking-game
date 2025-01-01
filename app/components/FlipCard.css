@@ -1,0 +1,199 @@
+/* Global styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Card container */
+.card-container {
+  touch-action: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  perspective: 2000px;
+  cursor: pointer;
+}
+
+/* Card wrapper */
+.card-wrapper {
+  transform-origin: center;
+  will-change: transform;
+  position: relative;
+  z-index: 10;
+}
+
+/* 3D card styles */
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  height: 100%;
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: white;
+}
+
+.card-front {
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.card-back {
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+/* Flipped state */
+.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Card stack */
+.card-stack {
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.card-stack-item {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-stack-item:nth-child(1),
+.card-stack-item:nth-child(2),
+.card-stack-item:nth-child(3) {
+  filter: none;
+}
+
+/* Realistic card effects */
+.card-shadow {
+  box-shadow: 
+    0 2px 4px -1px rgba(0,0,0,0.2),
+    0 4px 5px 0 rgba(0,0,0,0.14),
+    0 1px 10px 0 rgba(0,0,0,0.12);
+  transition: box-shadow 0.3s ease-in-out;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: white;
+}
+
+/* Card shine effect */
+.card-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1rem;
+
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card-wrapper:hover .card-shine {
+  opacity: 1;
+}
+
+/* Animation keyframes */
+@keyframes flipIn {
+  from {
+    transform: rotateY(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flipOut {
+  from {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+}
+
+/* Image styles */
+.card-face img,
+.card-stack-item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  background: white !important;
+}
+
+/* SVG styles */
+.card-face svg,
+.card-stack-item svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  display: block;
+}
+
+/* Sửa lại phần animation cho card khi exit */
+.card-container.exit-left .card-wrapper {
+  animation: exitLeft 0.3s ease-out forwards;
+  pointer-events: none;
+}
+
+.card-container.exit-right .card-wrapper {
+  animation: exitRight 0.3s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes exitLeft {
+  0% {
+    transform: translateX(0) rotateZ(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-150%) rotateZ(-30deg);
+    opacity: 0;
+  }
+}
+
+@keyframes exitRight {
+  0% {
+    transform: translateX(0) rotateZ(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(150%) rotateZ(30deg);
+    opacity: 0;
+  }
+}
+
+/* Thêm style để ẩn card khi exit */
+.card-container.exit-left,
+.card-container.exit-right {
+  visibility: hidden;
+  transition: visibility 0.3s;
+}
